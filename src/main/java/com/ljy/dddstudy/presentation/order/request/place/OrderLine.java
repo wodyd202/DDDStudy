@@ -3,6 +3,8 @@ package com.ljy.dddstudy.presentation.order.request.place;
 import com.ljy.dddstudy.services.order.application.dto.OrderLineDto;
 import lombok.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Getter
@@ -10,7 +12,11 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderLine {
+    @NotNull
     private Long productId;
+
+    @NotNull
+    @Min(1)
     private Integer quantity;
 
     public OrderLineDto toDto() {

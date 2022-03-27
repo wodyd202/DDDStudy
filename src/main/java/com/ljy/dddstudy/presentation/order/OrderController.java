@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -16,7 +17,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Long> place(@RequestHeader("userId") String orderer,
-                                      @RequestBody PlaceOrderRequest request) {
+                                      @Valid @RequestBody PlaceOrderRequest request) {
         Long orderId = orderService.place(request.toDto(), orderer);
         return ResponseEntity.created(URI.create("/api/v1/orders/" + orderId)).build();
     }
