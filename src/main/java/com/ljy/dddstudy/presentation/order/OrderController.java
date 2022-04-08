@@ -1,5 +1,6 @@
 package com.ljy.dddstudy.presentation.order;
 
+import com.ljy.dddstudy.presentation.order.request.place.ChangeDeliveryRequest;
 import com.ljy.dddstudy.presentation.order.request.place.PlaceOrderRequest;
 import com.ljy.dddstudy.services.order.application.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,14 @@ public class OrderController {
         Long orderId = orderService.place(request.toDto(), orderer);
         return ResponseEntity.created(URI.create("/api/v1/orders/" + orderId)).build();
     }
-    
+
+    @PatchMapping("/{orderId}/delivery")
+    public ResponseEntity<Long> changeDelivery(@PathVariable Long orderId,
+                                               @RequestHeader("userId") String orderer,
+                                               @Valid @RequestBody ChangeDeliveryRequest request) {
+        orderService.changeDelivery(orderId, request.toDto(), orderer);
+        return ResponseEntity.ok(orderId);
+    }
 }
+
+

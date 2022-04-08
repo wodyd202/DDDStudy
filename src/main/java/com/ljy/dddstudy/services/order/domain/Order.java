@@ -1,15 +1,16 @@
 
 package com.ljy.dddstudy.services.order.domain;
 
+import com.ljy.dddstudy.services.order.domain.exception.NoChangeableOrderStateException;
+import com.ljy.dddstudy.services.order.domain.exception.NoUpdatePermitionException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static com.ljy.dddstudy.services.order.domain.OrderState.COMPLETED;
+import static com.ljy.dddstudy.services.order.domain.OrderState.ORDER_COMPLETED;
 
 @Entity
 @Table(name = "ORDERS")
@@ -26,6 +27,7 @@ public class Order {
     private OrderLines orderLines;
 
     @Embedded
+    @Getter
     private Delivery delivery;
 
     @Column(name = "ORDERER")
@@ -49,7 +51,7 @@ public class Order {
         this.orderer = orderer;
         this.message = message;
         this.orderDateTime = LocalDateTime.now();
-        this.state = COMPLETED;
+        this.state = ORDER_COMPLETED;
     }
 
     private void setOrderLines(OrderLines orderLines) {
@@ -64,4 +66,25 @@ public class Order {
         return new Order(orderLines, delivery, orderer, message);
     }
 
+    public void changeDelivery(Delivery delivery, String updater) {
+        verifyHasUpdatePermition(updater);
+        verifyChangeableDelivery();
+        this.delivery = delivery;
+    }
+
+    private void verifyHasUpdatePermition(String updater) {
+        if(hasUpdatePermition(updater) == false) {
+            throw new NoUpdatePermitionException();
+        }
+    }
+
+    private boolean hasUpdatePermition(String updater) {
+        return this.orderer.equals(updater);
+    }
+
+    private void verifyChangeableDelivery() {
+        if(state.isChangeable() == false) {
+            throw new NoChangeableOrderStateException();
+        }
+    }
 }

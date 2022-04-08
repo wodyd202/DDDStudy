@@ -6,7 +6,6 @@ import lombok.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -23,7 +22,7 @@ public class PlaceOrderRequest {
 
     @NotNull
     @Valid
-    private Delivery delivery;
+    private ChangeDeliveryRequest delivery;
 
     private String message;
 

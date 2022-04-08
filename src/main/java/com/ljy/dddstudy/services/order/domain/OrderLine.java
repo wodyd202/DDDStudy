@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class OrderLine {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "PRODUCT_ID")

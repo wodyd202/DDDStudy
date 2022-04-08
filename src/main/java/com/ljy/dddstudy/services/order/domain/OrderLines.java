@@ -3,6 +3,7 @@ package com.ljy.dddstudy.services.order.domain;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderLines {
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderLine> orderLines;
 
     private OrderLines(Set<OrderLine> orderLines) {

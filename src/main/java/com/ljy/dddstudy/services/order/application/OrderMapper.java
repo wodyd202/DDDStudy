@@ -14,13 +14,15 @@ import static java.util.stream.Collectors.toSet;
 public class OrderMapper {
 
     public Order mapOf(PlaceOrderDto dto, String orderer) {
-        DeliveryDto delivery = dto.getDelivery();
         return Order.of(OrderLines.setOf(dto.getOrderLines()
                 .stream().map(orderLine -> OrderLine.of(orderLine.getProductId(), orderLine.getQuantity()))
                 .collect(toSet())),
-                Delivery.of(delivery.getZipcode(), delivery.getDetail()),
+                toDelivery(dto.getDelivery()),
                 orderer,
                 dto.getMessage());
     }
 
+    public Delivery toDelivery(DeliveryDto dto) {
+        return Delivery.of(dto.getZipcode(), dto.getDetail());
+    }
 }

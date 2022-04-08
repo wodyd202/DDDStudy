@@ -1,6 +1,6 @@
 package com.ljy.dddstudy.presenation.order.request;
 
-import com.ljy.dddstudy.presentation.order.request.place.Delivery;
+import com.ljy.dddstudy.presentation.order.request.place.ChangeDeliveryRequest;
 import com.ljy.dddstudy.presentation.order.request.place.OrderLine;
 import com.ljy.dddstudy.presentation.order.request.place.PlaceOrderRequest;
 
@@ -21,8 +21,8 @@ public class OrderRequestFixture {
                 .quantity(2);
     }
 
-    public static Delivery.DeliveryBuilder aDelivery() {
-        return Delivery.builder()
+    public static ChangeDeliveryRequest.ChangeDeliveryRequestBuilder aDelivery() {
+        return ChangeDeliveryRequest.builder()
                 .zipcode("zipcode")
                 .detail("상세 주소");
     }
